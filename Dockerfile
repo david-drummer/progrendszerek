@@ -9,7 +9,7 @@ RUN git clone https://github.com/david-drummer/progrendszerek.git
 
 WORKDIR /opt/progrendszerek
 
-RUN npm install -y
+RUN npm install
 
 EXPOSE 3000
 
