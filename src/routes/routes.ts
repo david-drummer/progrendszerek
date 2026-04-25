@@ -90,5 +90,21 @@ export const configureRoutes = (passport: PassportStatic, router: Router): Route
 
     });
 
+    router.post('/logout', (req: Request, res: Response) => {
+        if (req.isAuthenticated()) {
+            req.logout((error) => {
+                if (error) {
+                    res.status(500).send('Internal server error.');
+                }
+                res.status(200).send('Successfully logged out.');
+            })
+        } else {
+            res.status(500).send('User is not logged in.');
+        }
+            
+        
+
+    });
+
     return router;
 }
