@@ -10,7 +10,8 @@ RUN git clone https://github.com/david-drummer/progrendszerek.git
 WORKDIR /opt/progrendszerek
 
 RUN npm install
+RUN npm run build
 
 EXPOSE 3000
 
-CMD node index
+CMD ["npm", "start"]
