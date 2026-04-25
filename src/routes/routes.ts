@@ -1,0 +1,94 @@
+import { Router, Request, Response, NextFunction } from 'express';
+import { MainClass } from '../main-class';
+import { PassportStatic } from 'passport';
+import { User } from '../model/user';
+
+export const configureRoutes = (passport: PassportStatic, router: Router): Router => {
+
+    router.get('/', (req: Request, res: Response) => {
+        let myClass = new MainClass();
+        res.status(200).send('Hello World!');
+    });
+        
+    router.get('/callback', (req: Request, res: Response) => {
+        let myClass = new MainClass();
+        myClass.monitoringCallback((error, result) => {
+            if (error) {
+                res.write(error);
+                res.status(400).end();
+            } else {
+                res.write(result);
+                res.status(200).end();
+            }
+        });
+    });
+
+
+    router.get('/promise', async (req: Request, res: Response) => {
+        let myClass = new MainClass();
+    /*    myClass.monitoringPromise().then((data: string) => {
+            res.write(data);
+            res.status(200).end();
+        }).catch((error: string) => {
+            res.write(error);
+            res.status(400).end();
+        }); */
+
+        // async await
+        try {
+            const data = await myClass.monitoringPromise();
+            res.write(data);
+            res.status(200).end();
+        } catch (error) {
+            res.write(error);
+            res.status(400).end();
+        }
+    });
+
+    router.get('/observable', (req: Request, res: Response) => {
+        let myClass = new MainClass();
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.setHeader('Transfer-Encoding', 'chunked');
+    /* deprecated
+        myClass.monitoringObservable().subscribe((data) => {
+            console.log('Data received: ' + data);
+        }, (error) => {
+            console.log('Error received: ' + error);
+        }, () => {
+            console.log('Observable completed');
+        }); */
+
+        myClass.monitoringObservable().subscribe({
+            next(data: string) {
+                res.write(data);
+            }, error(error: string) {
+                res.status(400).end(error);
+            }, complete() {
+                res.status(200).end();
+            }
+
+        });
+
+    });
+
+    router.post('/login', (req: Request, res: Response, next: NextFunction) => {
+        passport.authenticate('local', (error: string | null, user: User) => {
+            if(error) {
+                res.status(500).send(error);
+            } else {
+                req.login(user, (err: string | null) => {
+                    if (err) {
+                        res.status(500).send('Internal server error')
+                    } else {
+                        res.status(200).send(user);
+                    }
+                });
+    
+            }
+
+        })(req, res, next);
+
+    });
+
+    return router;
+}

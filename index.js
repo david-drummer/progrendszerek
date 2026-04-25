@@ -1,10 +1,5 @@
-const http = require("http");
-
-const server = http.createServer((req, res) => {
-  res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
-  res.end("Hello from Docker\n");
-});
-
-server.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const main_class_1 = require("./main-class");
+let myClasss = new main_class_1.MainClass();
+//# sourceMappingURL=index.js.map
