@@ -1,13 +1,10 @@
 FROM node
 
-RUN apt-get -y update 
-RUN apt-get install -y git
-RUN git config --global http.sslVerify false
-
 WORKDIR /opt
-RUN git clone https://github.com/david-drummer/progrendszerek.git
 
-WORKDIR /opt/progrendszerek
+COPY package*.json ./
+COPY tsconfig.json ./
+COPY src ./src
 
 RUN npm install
 RUN npm run build
