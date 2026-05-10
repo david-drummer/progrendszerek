@@ -1,0 +1,22 @@
+<section class="category-page">
+  <h1>Kategóriák</h1>
+
+  <div *ngIf="loading" class="message">
+    Betöltés...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!loading && categories.length === 0" class="message">
+    Nincs megjeleníthető kategória.
+  </div>
+
+  <div class="category-grid" *ngIf="!loading && categories.length > 0">
+    <article class="category-card" *ngFor="let category of categories">
+      <h2>{{ category.name }}</h2>
+      <p>{{ category.description }}</p>
+    </article>
+  </div>
+</section>

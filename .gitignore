@@ -1,2 +1,23 @@
-build
-node_modules
+# node
+node_modules/
+npm-debug.log
+package-lock.json
+
+# build output
+build/
+dist/
+
+# env
+.env
+
+# docker
+data/
+mongo-data/
+
+# logs
+logs/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

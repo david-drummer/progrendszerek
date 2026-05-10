@@ -1,0 +1,152 @@
+.management-container {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(260px, 1fr));
+  gap: 28px;
+  align-items: start;
+}
+
+.card {
+  background: #fffdf9;
+  border-radius: 20px;
+  padding: 28px 30px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.card h2,
+.table-section h2 {
+  margin: 0 0 22px;
+  color: #3b251e;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  color: #4a2b20;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d6ccc6;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 16px;
+  background: #fff;
+}
+
+textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  padding: 14px 18px;
+  margin-top: 12px;
+  background: #087b78;
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+button.secondary {
+  background: #6b7280;
+}
+
+button.danger {
+  background: #c4002f;
+}
+
+.alert {
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+.alert.error {
+  background: #ffe5e5;
+  color: #9f1239;
+}
+
+.alert.success {
+  background: #e6ffed;
+  color: #166534;
+}
+
+.table-section {
+  margin-top: 34px;
+  background: #fffdf9;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fffdf9;
+}
+
+thead {
+  background: #f2e4cf;
+}
+
+th,
+td {
+  padding: 18px 22px;
+  text-align: left;
+  border-bottom: 1px solid #e7ded8;
+}
+
+th {
+  color: #3b251e;
+  font-weight: 800;
+}
+
+td button {
+  width: auto;
+  min-width: 80px;
+  margin: 4px;
+  padding: 10px 16px;
+}
+
+@media (max-width: 1200px) {
+  .cards {
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .management-container {
+    padding: 20px 12px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}

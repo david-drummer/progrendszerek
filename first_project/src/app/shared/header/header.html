@@ -1,0 +1,62 @@
+<header class="app-header">
+  <mat-toolbar class="app-header__toolbar" role="banner">
+
+    <!-- Bejelentkezett felhasználó neve bal oldalon -->
+    <div class="app-header__user" *ngIf="isLoggedIn$ | async">
+      <span class="app-header__welcome">Welcome,</span>
+      <span class="app-header__username">
+        {{ (currentUser$ | async)?.username }}
+      </span>
+    </div>
+
+    <!-- Kitöltő elem -->
+    <span class="app-header__spacer"></span>
+
+    <!-- Navigáció -->
+    <nav
+      class="app-header__nav"
+      role="navigation"
+      aria-label="Fő navigáció"
+    >
+      <ng-container *ngIf="(isLoggedIn$ | async) === false; else loggedIn">
+        <a mat-button routerLink="/recipes" class="app-header__nav-item">
+          Recipes
+        </a>
+        <a mat-button routerLink="/auth/login" class="app-header__nav-item">
+          Login
+        </a>
+        <a mat-button routerLink="/auth/register" class="app-header__nav-item">
+          Register
+        </a>
+      </ng-container>
+
+      <ng-template #loggedIn>
+        <a mat-button routerLink="/bookclubs" class="app-header__nav-item">
+          Bookclubs
+        </a>
+        <a mat-button routerLink="/categories" class="app-header__nav-item">
+          Categories
+        </a>
+        <a mat-button routerLink="/profile" class="app-header__nav-item">
+          Profile
+        </a>
+        <a
+          *ngIf="isAdmin$ | async"
+          mat-button
+          routerLink="/admin"
+          class="app-header__nav-item"
+        >
+          Admin
+        </a>
+        <button
+          mat-button
+          (click)="logout()"
+          class="app-header__nav-item"
+        >
+          Logout
+        </button>
+      </ng-template>
+    </nav>
+
+  </mat-toolbar>
+</header>

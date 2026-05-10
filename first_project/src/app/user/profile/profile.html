@@ -1,0 +1,120 @@
+<section class="profile-page">
+  <h1>My Profile</h1>
+
+  <div *ngIf="loading" class="message">
+    Loading...
+  </div>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert success">
+    {{ successMessage }}
+  </div>
+
+  <div *ngIf="user && !loading" class="profile-card">
+    <h2>User Information</h2>
+
+    <div class="user-data">
+      <div class="data-row">
+        <span class="label">ID</span>
+        <span class="value">{{ user.id }}</span>
+      </div>
+
+      <div class="data-row">
+        <span class="label">Username</span>
+        <span class="value">{{ user.username }}</span>
+      </div>
+
+      <div class="data-row">
+        <span class="label">Email</span>
+        <span class="value">{{ user.email }}</span>
+      </div>
+
+      <div class="data-row">
+        <span class="label">Role</span>
+        <span class="value">{{ user.role }}</span>
+      </div>
+
+      <div class="data-row" *ngIf="user.createdAt">
+        <span class="label">Created At</span>
+        <span class="value">{{ user.createdAt | date:'yyyy.MM.dd. HH:mm' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+  <h2>Change Password</h2>
+
+  <form (ngSubmit)="changePassword()" class="password-form">
+    <label>
+      Current Password
+      <input
+        type="password"
+        name="currentPassword"
+        [(ngModel)]="passwordForm.currentPassword"
+        required
+      />
+    </label>
+
+    <label>
+      New Password
+      <input
+        type="password"
+        name="newPassword"
+        [(ngModel)]="passwordForm.newPassword"
+        required
+        minlength="6"
+      />
+    </label>
+
+    <label>
+      Confirm New Password
+      <input
+        type="password"
+        name="confirmPassword"
+        [(ngModel)]="passwordForm.confirmPassword"
+        required
+        [class.input-error]="
+          passwordForm.confirmPassword &&
+          passwordForm.newPassword !== passwordForm.confirmPassword
+        "
+      />
+    </label>
+
+    <!-- Error, if the passwords don't match -->
+    <div
+      class="field-error"
+      *ngIf="
+        passwordForm.confirmPassword &&
+        passwordForm.newPassword !== passwordForm.confirmPassword
+      "
+    >
+      The new passwords do not match.
+    </div>
+
+    <button
+      type="submit"
+      class="primary-button"
+      [disabled]="
+        !passwordForm.currentPassword ||
+        !passwordForm.newPassword ||
+        !passwordForm.confirmPassword ||
+        passwordForm.newPassword !== passwordForm.confirmPassword
+      "
+    >
+      Change Password
+    </button>
+  </form>
+</div>
+
+  <div class="danger-zone">
+    <h2>Delete Account</h2>
+    <p>Delete your account permanently.</p>
+
+    <button type="button" class="danger-button" (click)="deleteAccount()">
+      Delete My Account
+    </button>
+  </div>
+</section>

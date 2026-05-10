@@ -1,0 +1,227 @@
+<div class="management-container">
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert success">
+    {{ successMessage }}
+  </div>
+
+  <section class="cards">
+
+    <div class="card">
+      <h2>{{ editingBookclub ? 'Edit Bookclub' : 'Add Bookclub' }}</h2>
+
+      <form (ngSubmit)="saveBookclub()">
+        <label>Name</label>
+        <input
+          type="text"
+          name="name"
+          [(ngModel)]="form.name"
+        />
+
+        <label>Description</label>
+        <textarea
+          name="description"
+          [(ngModel)]="form.description"
+        ></textarea>
+
+        <button type="submit">
+          {{ editingBookclub ? 'Update Bookclub' : 'Add Bookclub' }}
+        </button>
+
+        <button
+          *ngIf="editingBookclub"
+          type="button"
+          class="secondary"
+          (click)="cancelEdit()"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Add Book</h2>
+
+      <form (ngSubmit)="addBookToBookclub()">
+        <label>Bookclub</label>
+        <select
+          name="addBookBookclubId"
+          [(ngModel)]="addBookForm.bookclubId"
+        >
+          <option value="">Choose a bookclub</option>
+          <option
+            *ngFor="let bookclub of bookclubs"
+            [value]="getBookclubId(bookclub)"
+          >
+            {{ bookclub.name }}
+          </option>
+        </select>
+
+        <label>Book Title</label>
+        <input
+          type="text"
+          name="title"
+          [(ngModel)]="addBookForm.title"
+        />
+
+        <label>Author</label>
+        <input
+          type="text"
+          name="author"
+          [(ngModel)]="addBookForm.author"
+        />
+
+        <label>Category</label>
+        <select
+          name="categoryId"
+          [(ngModel)]="addBookForm.categoryId"
+        >
+          <option value="">Choose a category</option>
+          <option
+            *ngFor="let category of categories"
+            [value]="getCategoryId(category)"
+          >
+            {{ getCategoryName(category) }}
+          </option>
+        </select>
+
+       <label for="publishedAt">Published Date</label>
+        <input
+          id="publishedAt"
+          type="date"
+          name="publishedAt"
+          [(ngModel)]="addBookForm.publishedAt"
+        />
+
+        <button type="submit">
+          Add Book
+        </button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Add Member</h2>
+
+      <form (ngSubmit)="addMemberToBookclub()">
+        <label>Bookclub</label>
+        <select
+          name="addMemberBookclubId"
+          [(ngModel)]="addMemberForm.bookclubId"
+        >
+          <option value="">Choose a bookclub</option>
+          <option
+            *ngFor="let bookclub of bookclubs"
+            [value]="getBookclubId(bookclub)"
+          >
+            {{ bookclub.name }}
+          </option>
+        </select>
+
+        <label>User</label>
+        <select
+          name="addMemberUserId"
+          [(ngModel)]="addMemberForm.userId"
+        >
+          <option value="">Choose a user</option>
+          <option
+            *ngFor="let user of users"
+            [value]="getUserId(user)"
+          >
+            {{ getUserDisplayName(user) }}
+          </option>
+        </select>
+
+        <button type="submit">
+          Add Member
+        </button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Remove Member</h2>
+
+      <form (ngSubmit)="removeMemberFromBookclub()">
+        <label>Bookclub</label>
+        <select
+          name="removeMemberBookclubId"
+          [(ngModel)]="removeMemberForm.bookclubId"
+          (change)="onRemoveBookclubChange()"
+        >
+          <option value="">Choose a bookclub</option>
+          <option
+            *ngFor="let bookclub of bookclubs"
+            [value]="getBookclubId(bookclub)"
+          >
+            {{ bookclub.name }}
+          </option>
+        </select>
+
+        <label>User</label>
+        <select
+          name="removeMemberUserId"
+          [(ngModel)]="removeMemberForm.userId"
+        >
+          <option value="">Choose a user</option>
+          <option
+            *ngFor="let user of users"
+            [value]="getUserId(user)"
+          >
+            {{ getUserDisplayName(user) }}
+          </option>
+        </select>
+
+        <button type="submit" class="danger">
+          Remove Member
+        </button>
+      </form>
+    </div>
+
+  </section>
+
+  <section class="table-section">
+    <h2>Bookclubs</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Members</th>
+          <th>Books</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let bookclub of bookclubs">
+          <td>{{ bookclub.name }}</td>
+          <td>{{ bookclub.description }}</td>
+
+          <td>
+            <span *ngFor="let member of bookclub.members; let last = last">
+              {{ getUserDisplayName(member) }}<span *ngIf="!last">, </span>
+            </span>
+          </td>
+
+          <td>
+            <div *ngFor="let book of bookclub.books">
+              {{ book.title }} - {{ book.author }}
+            </div>
+          </td>
+
+          <td>
+            <button type="button" (click)="editBookclub(bookclub)">
+              Edit
+            </button>
+
+            <button type="button" class="danger" (click)="deleteBookclub(bookclub)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

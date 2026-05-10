@@ -1,0 +1,103 @@
+<div class="rating-container">
+  <button type="button" class="back-button" (click)="goBack()">
+    ← Back
+  </button>
+
+  <div *ngIf="errorMessage" class="alert error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert success">
+    {{ successMessage }}
+  </div>
+
+  <section class="card">
+    <h2>{{ editingRating ? 'Edit Rating' : 'Add Rating' }}</h2>
+
+    <form (ngSubmit)="saveRating()">
+      <label>Score</label>
+      <select
+        name="score"
+        [(ngModel)]="form.score"
+      >
+        <option [ngValue]="1">1</option>
+        <option [ngValue]="2">2</option>
+        <option [ngValue]="3">3</option>
+        <option [ngValue]="4">4</option>
+        <option [ngValue]="5">5</option>
+      </select>
+
+      <label>Comment</label>
+      <textarea
+        name="comment"
+        [(ngModel)]="form.comment"
+      ></textarea>
+
+      <button type="submit">
+        {{ editingRating ? 'Update Rating' : 'Add Rating' }}
+      </button>
+
+      <button
+        *ngIf="editingRating"
+        type="button"
+        class="secondary"
+        (click)="cancelEdit()"
+      >
+        Cancel
+      </button>
+    </form>
+  </section>
+
+  <section class="table-section">
+    <h2>Ratings</h2>
+
+    <div *ngIf="loading">
+      Loading ratings...
+    </div>
+
+    <table *ngIf="!loading">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Score</th>
+          <th>Comment</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let rating of ratings">
+          <td>{{ getUsername(rating.userId) }}</td>
+          <td>{{ rating.score }}/5</td>
+          <td>{{ rating.comment }}</td>
+          <td>{{ rating.createdAt | date:'yyyy-MM-dd HH:mm' }}</td>
+          <td>
+            <button
+              *ngIf="isOwnRating(rating)"
+              type="button"
+              (click)="editRating(rating)"
+            >
+              Edit
+            </button>
+
+            <button
+              *ngIf="isAdminUser()"
+              type="button"
+              class="danger"
+              (click)="deleteRating(rating)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="ratings.length === 0">
+          <td colspan="5">
+            No ratings yet for this book.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

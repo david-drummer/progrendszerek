@@ -1,0 +1,46 @@
+<section class="bookclub-list">
+  <h1>My Bookclubs</h1>
+
+  <table mat-table [dataSource]="dataSource" class="bookclub-table">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef>ID</th>
+      <td mat-cell *matCellDef="let club">
+        <button mat-button color="primary" (click)="openBookclub(club.id)">
+          {{ club.id }}
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let club">{{ club.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>Description</th>
+      <td mat-cell *matCellDef="let club">{{ club.description }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="members">
+      <th mat-header-cell *matHeaderCellDef>Members</th>
+      <td mat-cell *matCellDef="let club">{{ club.members?.length || 0 }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Open</th>
+      <td mat-cell *matCellDef="let club">
+        <button mat-raised-button color="primary" (click)="openBookclub(club.id)">
+          View
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <p *ngIf="dataSource.data.length === 0" class="empty">
+  You are not a member of any bookclub yet.
+</p>
+</section>
