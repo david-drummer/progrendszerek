@@ -1,8 +1,8 @@
 <section class="category-page">
-  <h1>Kategóriák</h1>
+  <h1>Categories</h1>
 
   <div *ngIf="loading" class="message">
-    Betöltés...
+    Loading...
   </div>
 
   <div *ngIf="errorMessage" class="alert error">
@@ -10,7 +10,7 @@
   </div>
 
   <div *ngIf="!loading && categories.length === 0" class="message">
-    Nincs megjeleníthető kategória.
+    No categories to display.
   </div>
 
   <div class="category-grid" *ngIf="!loading && categories.length > 0">
